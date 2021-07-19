@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StoreClasslib
 {
-    class StoreFront
+    public class StoreFront
     {
         public int Id { set; get; }
         public string Name { set; get; }
