@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using StoreDL;
@@ -9,9 +10,10 @@ using StoreDL;
 namespace StoreDL.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20210719213724_InventoryItem")]
+    partial class InventoryItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,31 +42,6 @@ namespace StoreDL.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("StoreClasslib.InventoryItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("ProdId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StoreFrontId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProdId");
-
-                    b.HasIndex("StoreFrontId");
-
-                    b.ToTable("InventoryItems");
-                });
-
             modelBuilder.Entity("StoreClasslib.LineItem", b =>
                 {
                     b.Property<int>("Id")
@@ -72,8 +49,9 @@ namespace StoreDL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("ProdId")
                         .HasColumnType("integer");
@@ -83,16 +61,16 @@ namespace StoreDL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("ProdId");
 
                     b.ToTable("LineItems");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("LineItem");
                 });
 
             modelBuilder.Entity("StoreClasslib.Order", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -103,15 +81,20 @@ namespace StoreDL.Migrations
                     b.Property<string>("Location")
                         .HasColumnType("text");
 
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StoreFrontId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("numeric");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("StoreFrontId");
 
@@ -144,7 +127,7 @@ namespace StoreDL.Migrations
 
             modelBuilder.Entity("StoreClasslib.StoreFront", b =>
                 {
-                    b.Property<int>("StoreFrontId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -155,39 +138,28 @@ namespace StoreDL.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.HasKey("StoreFrontId");
+                    b.HasKey("Id");
 
                     b.ToTable("StoreFronts");
                 });
 
             modelBuilder.Entity("StoreClasslib.InventoryItem", b =>
                 {
-                    b.HasOne("StoreClasslib.Product", "Prod")
-                        .WithMany()
-                        .HasForeignKey("ProdId");
+                    b.HasBaseType("StoreClasslib.LineItem");
 
-                    b.HasOne("StoreClasslib.StoreFront", null)
-                        .WithMany("Inventory")
-                        .HasForeignKey("StoreFrontId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int?>("StoreFrontId")
+                        .HasColumnType("integer");
 
-                    b.Navigation("Prod");
+                    b.HasIndex("StoreFrontId");
+
+                    b.HasDiscriminator().HasValue("InventoryItem");
                 });
 
             modelBuilder.Entity("StoreClasslib.LineItem", b =>
                 {
-                    b.HasOne("StoreClasslib.Order", "Order")
-                        .WithMany("LineItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("StoreClasslib.Product", "Prod")
                         .WithMany()
                         .HasForeignKey("ProdId");
-
-                    b.Navigation("Order");
 
                     b.Navigation("Prod");
                 });
@@ -200,11 +172,22 @@ namespace StoreDL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("StoreClasslib.Order", null)
+                        .WithMany("LineItems")
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("StoreClasslib.StoreFront", null)
                         .WithMany("Orders")
                         .HasForeignKey("StoreFrontId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("StoreClasslib.InventoryItem", b =>
+                {
+                    b.HasOne("StoreClasslib.StoreFront", null)
+                        .WithMany("Inventory")
+                        .HasForeignKey("StoreFrontId");
                 });
 
             modelBuilder.Entity("StoreClasslib.Customer", b =>
