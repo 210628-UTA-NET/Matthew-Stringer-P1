@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreClasslib", "StoreClasslib\StoreClasslib.csproj", "{BF3475D3-427D-4C58-879B-3C3B0C06460B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreWebApp", "StoreWebApp\StoreWebApp.csproj", "{75681125-46D4-41C7-A308-247EECFDD0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreWebApp", "StoreWebApp\StoreWebApp.csproj", "{75681125-46D4-41C7-A308-247EECFDD0D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreDL", "StoreDL\StoreDL.csproj", "{93996191-069B-48B9-863E-C5B5F7B2D580}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDL", "StoreDL\StoreDL.csproj", "{93996191-069B-48B9-863E-C5B5F7B2D580}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

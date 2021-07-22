@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using StoreDL;
+using Microsoft.EntityFrameworkCore;
 
 namespace StoreWebApp
 {
@@ -23,7 +25,13 @@ namespace StoreWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddDbContext<StoreContext>(options => options.UseNpgsql(Configuration.GetConnectionString("Reference2DB")));
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+            services.AddDbContext<StoreContext>();
+
+            services.AddScoped<ISQLDatastore, SQLDatastore>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
