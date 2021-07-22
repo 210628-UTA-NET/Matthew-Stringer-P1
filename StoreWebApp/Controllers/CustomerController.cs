@@ -21,7 +21,7 @@ namespace StoreWebApp.Controllers
         public IActionResult Index()
         {
             return View(_datastore.GetAllCustomers()
-                .Select(cust => new CustomerVM(cust)).ToList());
+                .Select(cust => new CustomerVM(cust)).OrderBy(cust => cust.Name).ToList());
         }
 
         public IActionResult AddCustomer()
