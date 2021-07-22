@@ -35,6 +35,10 @@ namespace StoreDL
             return _context.StoreFronts.Select(store => store).Where(x => x.Name.Contains(p_name)).ToList();
         }
 
+        public List<StoreFront> GetAllStoreFronts()
+        {
+            return _context.StoreFronts.Select(store => store).ToList();
+        }
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)
         //{
         //    _context.Database.BeginTransaction();
