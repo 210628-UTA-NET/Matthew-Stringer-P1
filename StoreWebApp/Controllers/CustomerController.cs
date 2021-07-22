@@ -44,7 +44,7 @@ namespace StoreWebApp.Controllers
                     }
                     );
 
-                    return RedirectToAction(nameof(Index)); //Go back to the index html of the Restaurant Controller
+                    return RedirectToAction(nameof(Index)); //Go back to the index html of the Customer Controller
                 }
             }
             catch (Exception)
