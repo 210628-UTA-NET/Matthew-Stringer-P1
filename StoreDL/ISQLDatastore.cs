@@ -9,6 +9,7 @@ namespace StoreDL
         List<Customer> SearchCustomerByName(string p_name);
         List<StoreFront> SearchStoreFrontByName(string p_name);
         List<Customer> GetAllCustomers();
-        public List<StoreFront> GetAllStoreFronts();
+        List<StoreFront> GetAllStoreFronts();
+        List<InventoryItem> GetStoreInventory(int p_id);
     }
 }

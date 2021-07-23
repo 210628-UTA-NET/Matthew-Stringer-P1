@@ -39,6 +39,12 @@ namespace StoreDL
         {
             return _context.StoreFronts.Select(store => store).ToList();
         }
+
+        public List<InventoryItem> GetStoreInventory(int p_id)
+        {
+            return _context.StoreFronts.Select(store => store).Where(store => store.StoreFrontId == p_id).Single().Inventory;
+        }
+
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)
         //{
         //    _context.Database.BeginTransaction();
