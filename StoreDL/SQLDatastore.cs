@@ -46,6 +46,28 @@ namespace StoreDL
             return _context.InventoryItems.Where(item => item.StoreFrontId == p_id).Include(item => item.Prod).ToList();
         }
 
+        public List<InventoryItem> GetStoreInventoryWithZeroes(int p_id)
+        {
+            Dictionary<int, InventoryItem> dict = new Dictionary<int, InventoryItem>();
+            foreach (Product prod in _context.Products.ToList())
+            {
+                dict.Add(prod.Id, new InventoryItem
+                {
+                    Id = -1,
+                    Prod = prod,
+                    StoreFrontId = p_id,
+                    Quantity = 0
+                });
+            }
+            foreach (InventoryItem item in _context.InventoryItems.Where(item => item.StoreFrontId == p_id).Include(item => item.Prod).ToList())
+            {
+                InventoryItem itemOut = dict[item.Prod.Id];
+                itemOut.Id = item.Id;
+                itemOut.Quantity = item.Quantity;
+            }
+            return dict.Values.ToList();
+        }
+
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)
         //{
         //    _context.Database.BeginTransaction();
