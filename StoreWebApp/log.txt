@@ -1,0 +1,1 @@
+2021-07-23 19:51:15.311 -04:00 [INF] The global logger has been configured

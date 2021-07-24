@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using StoreClasslib;
 
 namespace StoreDL
@@ -42,7 +43,7 @@ namespace StoreDL
 
         public List<InventoryItem> GetStoreInventory(int p_id)
         {
-            return _context.StoreFronts.Select(store => store).Where(store => store.StoreFrontId == p_id).Single().Inventory;
+            return _context.InventoryItems.Where(item => item.StoreFrontId == p_id).Include(item => item.Prod).ToList();
         }
 
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)

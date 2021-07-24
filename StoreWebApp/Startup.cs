@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using StoreDL;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace StoreWebApp
 {
@@ -31,6 +32,9 @@ namespace StoreWebApp
             services.AddDbContext<StoreContext>();
 
             services.AddScoped<ISQLDatastore, SQLDatastore>();
+            using var log = new LoggerConfiguration().WriteTo.Console().CreateLogger();
+            Log.Logger = log;
+            Log.Information("The global logger has been configured");
 
         }
 
