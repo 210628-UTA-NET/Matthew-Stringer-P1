@@ -31,20 +31,26 @@ namespace StoreWebApp.Controllers
 
         public RedirectResult SaveChanges(ICollection<InventoryReplenishVM> p_changes)
         {
-            Log.Information($"p_changes.count == {p_changes.Count}");
-            if(_datastore.SaveStoreInventoryChanges(p_changes.Where(change => change.NewQuant > 0).Select(change => new InventoryItem
+            List<InventoryItem> changingStores = p_changes.Where(change => change.NewQuant > 0).Select(change => new InventoryItem
             {
                 Id = change.Id,
                 StoreFrontId = change.StoreId,
                 Prod = change.Prod,
                 Quantity = change.NewQuant + change.QuantNow
-            }).ToList()))
+            }).ToList();
+
+            if (changingStores.Count > 0)
             {
-                Log.Information("Inventory save successful.");
-            }
-            else
-            {
-                Log.Error("Inventory save failed.");
+                if (_datastore.SaveStoreInventoryChanges(changingStores))
+                {
+                    Log.Information("Inventory save successful.");
+                    return Redirect($"/InventoryItem?p_id={changingStores[0].StoreFrontId}");
+                }
+                else
+                {
+                    Log.Error("Inventory save failed.");
+                    return Redirect("/");
+                }
             }
             return Redirect("/");
         }

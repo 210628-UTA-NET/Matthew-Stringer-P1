@@ -18,6 +18,9 @@
             </tr>
         </thead>
         <tbody>
+            @{ 
+                int p_id = 0;
+            }
             @foreach (var item in Model)
             {
             <tr>
@@ -25,8 +28,16 @@
                 <td>@Html.DisplayFor(modelItem => item.Prod.Price)</td>
                 <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
             </tr>
+                p_id = item.StoreFrontId;
             }
         </tbody>
     </table>
+    @if (p_id != 0)
+    {
+<form asp-controller="InventoryReplenish" asp-action="Index">
+    <input type="hidden" name="p_id" value="@p_id" />
+    <button type="submit" class="btn btn-primary">Replenish inventory for this store</button>
+</form>
+    }
 </body>
 </html>

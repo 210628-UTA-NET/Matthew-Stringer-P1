@@ -74,7 +74,6 @@ namespace StoreDL
             try
             {
                 _context.Database.BeginTransaction();
-                Log.Information($"p_changes.Count == {p_changes.Count}");
                 foreach (InventoryItem change in p_changes)
                 {
                     _context.Entry(change).State = change.Id == 0 ? EntityState.Added : EntityState.Modified;
