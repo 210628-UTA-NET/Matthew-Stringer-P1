@@ -11,6 +11,7 @@ namespace StoreDL
         List<Customer> GetAllCustomers();
         List<StoreFront> GetAllStoreFronts();
         List<InventoryItem> GetStoreInventory(int p_id);
-        public List<InventoryItem> GetStoreInventoryWithZeroes(int p_id);
+        List<InventoryItem> GetStoreInventoryWithZeroes(int p_id);
+        bool SaveStoreInventoryChanges(List<InventoryItem> p_changes);
     }
 }

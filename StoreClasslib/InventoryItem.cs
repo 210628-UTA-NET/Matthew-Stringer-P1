@@ -5,7 +5,7 @@ namespace StoreClasslib
 {
     public class InventoryItem
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { set; get; }
         public Product Prod { set; get; }
         public int Quantity { set; get; }

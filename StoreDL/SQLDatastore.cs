@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using StoreClasslib;
 
 namespace StoreDL
@@ -53,7 +54,7 @@ namespace StoreDL
             {
                 dict.Add(prod.Id, new InventoryItem
                 {
-                    Id = -1,
+                    Id = 0,
                     Prod = prod,
                     StoreFrontId = p_id,
                     Quantity = 0
@@ -66,6 +67,26 @@ namespace StoreDL
                 itemOut.Quantity = item.Quantity;
             }
             return dict.Values.ToList();
+        }
+
+        public bool SaveStoreInventoryChanges(List<InventoryItem> p_changes)
+        {
+            try
+            {
+                _context.Database.BeginTransaction();
+                Log.Information($"p_changes.Count == {p_changes.Count}");
+                foreach (InventoryItem change in p_changes)
+                {
+                    _context.Entry(change).State = change.Id == 0 ? EntityState.Added : EntityState.Modified;
+                }
+                _context.SaveChanges();
+                _context.Database.CommitTransaction();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
 
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)

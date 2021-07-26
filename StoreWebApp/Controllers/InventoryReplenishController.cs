@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
+using StoreClasslib;
 
 namespace StoreWebApp.Controllers
 {
@@ -30,6 +31,21 @@ namespace StoreWebApp.Controllers
 
         public RedirectResult SaveChanges(ICollection<InventoryReplenishVM> p_changes)
         {
+            Log.Information($"p_changes.count == {p_changes.Count}");
+            if(_datastore.SaveStoreInventoryChanges(p_changes.Where(change => change.NewQuant > 0).Select(change => new InventoryItem
+            {
+                Id = change.Id,
+                StoreFrontId = change.StoreId,
+                Prod = change.Prod,
+                Quantity = change.NewQuant + change.QuantNow
+            }).ToList()))
+            {
+                Log.Information("Inventory save successful.");
+            }
+            else
+            {
+                Log.Error("Inventory save failed.");
+            }
             return Redirect("/");
         }
     }
