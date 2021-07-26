@@ -17,6 +17,9 @@ namespace StoreWebApp.Models
             NewQuant = 0;
         }
 
+        public InventoryReplenishVM()
+        { }
+
         public int Id { set; get; }
         public int StoreId { get; set; }
         public Product Prod { set; get; }

@@ -22,5 +22,15 @@ namespace StoreWebApp.Controllers
             return View(_datastore.GetStoreInventoryWithZeroes(p_id)
                 .Select(item => new InventoryReplenishVM(item)).OrderBy(item => item.Prod.Name).ToList());
         }
+
+        public IActionResult ReviewChanges(ICollection<InventoryReplenishVM> p_changes)
+        {
+            return View(p_changes);
+        }
+
+        public RedirectResult SaveChanges(ICollection<InventoryReplenishVM> p_changes)
+        {
+            return Redirect("/");
+        }
     }
 }

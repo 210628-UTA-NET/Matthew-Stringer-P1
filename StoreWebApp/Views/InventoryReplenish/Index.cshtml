@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StoreWebApp.Models.InventoryReplenishVM>
+﻿@model ICollection<StoreWebApp.Models.InventoryReplenishVM>
 
 <!DOCTYPE html>
 <html>
@@ -7,28 +7,25 @@
     <title></title>
 </head>
 <body>
-    <h1>Inventory Replenishment</h1>
-
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Current Quantity</th>
-                <th>Additional Quantity</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Prod.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Prod.Price)</td>
-                <td>@Html.DisplayFor(modelItem => item.QuantNow)</td>
-                <td>@Html.TextBoxFor(modelItem => item.NewQuant, new { @Value = "0", @type = "number", @min = "0" })</td>
-            </tr>
-            }
-        </tbody>
-    </table>
+        <h1>Inventory Replenishment</h1>
+        <div>
+            <form asp-action="ReviewChanges">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Current Quantity</th>
+                            <th>Additional Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.EditorForModel()
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Review Order</button>
+            </form>
+              <a asp-action="Index" class="btn btn-danger" style="position:relative; top:15px; width:100px">Back</a>
+        </div>
 </body>
 </html>

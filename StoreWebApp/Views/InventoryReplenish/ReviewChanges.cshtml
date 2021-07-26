@@ -1,0 +1,53 @@
+﻿@model ICollection<StoreWebApp.Models.InventoryReplenishVM>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <div>
+            <h1>Review Order</h1>
+            <form asp-action="SaveChanges">
+                @*Modified from https://www.py4u.net/discuss/706607*@
+                @{
+                int i = 0;
+
+                foreach (var line in Model)
+                {
+                @Html.EditorFor(m => line, "InventoryReplenishHidden", "[" + i++ + "]")
+                }
+                }
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Current Quantity</th>
+                            <th>Additional Quantity</th>
+                            <th>New Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        if (item.NewQuant > 0) {
+                        int newTotal = item.QuantNow + item.NewQuant;
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Prod.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Prod.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.QuantNow)</td>
+                            <td>@Html.DisplayFor(modelItem => item.NewQuant)</td>
+                            <td>@Html.DisplayFor(modelItem => @newTotal)</td>
+                        </tr>
+                        }
+                        }
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+            <a asp-action="Index" class="btn btn-danger" style="position:relative; top:15px; width:100px">Back</a>
+        </div>
+    </body>
+</html>
