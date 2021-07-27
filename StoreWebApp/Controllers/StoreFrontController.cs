@@ -21,5 +21,11 @@ namespace StoreWebApp.Controllers
             return View(_datastore.GetAllStoreFronts()
                 .Select(store => new StoreFrontVM(store)).OrderBy(store => store.Name).ThenBy(store => store.Address).ToList());
         }
+
+        public IActionResult SelectForOrder(int p_cust_id)
+        {
+            return View(_datastore.GetAllStoreFronts()
+                .Select(store => new StoreFrontVM(store, p_cust_id)).OrderBy(store => store.Name).ThenBy(store => store.Address).ToList());
+        }
     }
 }
