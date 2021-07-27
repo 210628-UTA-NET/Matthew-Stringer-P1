@@ -23,5 +23,10 @@ namespace StoreWebApp.Controllers
 
             return View(_datastore.GetStoreInventory(p_store_id).OrderBy(item => item.Prod.Name).Select(item => new PlaceOrderVM(p_store_id, p_cust_id, item)).ToList());
         }
+
+        public IActionResult ReviewChanges(IEnumerable<PlaceOrderVM> p_data)
+        {
+            return View(p_data);
+        }
     }
 }

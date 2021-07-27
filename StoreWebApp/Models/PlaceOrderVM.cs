@@ -22,5 +22,8 @@ namespace StoreWebApp.Models
             Available = p_inventory.Quantity;
             Ordered = 0;
         }
+
+        public PlaceOrderVM()
+        { }
     }
 }

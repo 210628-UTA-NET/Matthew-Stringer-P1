@@ -1,0 +1,57 @@
+﻿@model IEnumerable<StoreWebApp.Models.PlaceOrderVM>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+    </head>
+    <body>
+        <div>
+            <h1>Review Order</h1>
+            <form asp-action="SaveChanges">
+                @*Modified from https://www.py4u.net/discuss/706607*@
+                @{
+                int i = 0;
+
+                foreach (var line in Model)
+                {
+                @Html.EditorFor(m => line, "PlaceOrderHidden", "[" + i++ + "]")
+                }
+                }
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Your Order</th>
+                            <th>Price x Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ 
+                            decimal totalPrice = 0;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            if (item.Ordered > 0)
+                            {
+                                decimal lineTotal = item.Prod.Price * item.Ordered;
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Prod.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Prod.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Ordered)</td>
+                            <td>@Html.DisplayFor(modelItem => @lineTotal)</td>
+                        </tr>
+                                totalPrice += lineTotal;
+                            }
+                        }
+                    </tbody>
+                </table>
+                <h3>Total Price: @totalPrice</h3>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+            <a asp-action="Index" class="btn btn-danger" style="position:relative; top:15px; width:100px">Back</a>
+        </div>
+    </body>
+</html>
