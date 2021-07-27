@@ -1,0 +1,31 @@
+﻿@model IEnumerable<StoreWebApp.Models.PlaceOrderVM>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>Place an Order</h1>
+    <div>
+        <form asp-action="ReviewChanges">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Available Quantity</th>
+                        <th>Your Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.EditorForModel()
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary">Review Order</button>
+        </form>
+        <a asp-action="Index" class="btn btn-danger" style="position:relative; top:15px; width:100px">Back</a>
+    </div>
+</body>
+</html> 

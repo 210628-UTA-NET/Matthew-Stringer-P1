@@ -88,6 +88,16 @@ namespace StoreDL
             return true;
         }
 
+        public Customer GetCustomerById(int p_id)
+        {
+            return _context.Customers.Find(p_id);
+        }
+
+        public StoreFront GetStoreFrontById(int p_id)
+        {
+            return _context.StoreFronts.Find(p_id);
+        }
+
         //public bool SaveOrder(Order p_order, List<p0class.LineItem> p_modified)
         //{
         //    _context.Database.BeginTransaction();

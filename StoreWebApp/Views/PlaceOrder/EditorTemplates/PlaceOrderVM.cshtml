@@ -1,0 +1,20 @@
+﻿@model StoreWebApp.Models.PlaceOrderVM
+<tr>
+    @Html.HiddenFor(x => x.StoreId)
+    @Html.HiddenFor(x => x.Prod.Id)
+    @Html.HiddenFor(x => x.Prod.Name)
+    @Html.HiddenFor(x => x.Prod.Price)
+    @Html.HiddenFor(x => x.Available)
+    <td>
+        @Html.DisplayFor(x => x.Prod.Name)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.Prod.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(x => x.Available)
+    </td>
+    <td>
+        @Html.TextBoxFor(x => x.Ordered, new { @min = "0", type = "number" })
+    </td>
+</tr>
