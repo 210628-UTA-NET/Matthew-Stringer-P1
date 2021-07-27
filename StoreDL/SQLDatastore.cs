@@ -108,6 +108,11 @@ namespace StoreDL
             return true;
         }
 
+        public List<Order> GetCustomerOrderHistory(int p_id)
+        {
+            Customer cust = _context.Customers.Where(x => x.Id == p_id).Include(x => x.Orders).ThenInclude(x => x.LineItems).ThenInclude(x => x.Prod).First();
 
+            return cust.Orders;
+        }
     }
 }

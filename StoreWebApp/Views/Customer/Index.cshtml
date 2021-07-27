@@ -29,7 +29,7 @@
                     <td>@Html.DisplayFor(modelItem => item.Address)</td>
                     <td>@Html.DisplayFor(modelItem => item.Email)</td>
                     <td>@Html.ActionLink("Place Order", "SelectForOrder", "StoreFront", new { p_cust_id = item.Id }, new { @style = "color:white", @class = "btn btn-secondary" })</td>
-                    <td>@Html.ActionLink("View Order History", "Index", "Order", new { p_cust_id = item.Id }, new { @style = "color:white", @class = "btn btn-secondary" })</td>
+                    <td>@Html.ActionLink("View Order History", "Index", "ReviewOrder", new { p_id = item.Id }, new { @style = "color:white", @class = "btn btn-secondary" })</td>
                 </tr>
             }
         </tbody>
