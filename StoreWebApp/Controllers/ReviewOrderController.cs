@@ -20,13 +20,13 @@ namespace StoreWebApp.Controllers
 
         public IActionResult Index(int p_id)
         {
-            List<Order> orderList = _datastore.GetCustomerOrderHistory(p_id);
+            List<Order> orderList = _datastore.GetCustomerOrderHistory(p_id).OrderBy(x => x.DateAdded).ToList();
             List<LineItem> itemList = new();
             foreach(Order order in orderList)
             {
                 itemList.AddRange(order.LineItems);
             }
-            return View(itemList.Select(x => new ReviewOrdersVM(x)).OrderBy(x => x.OrderId).ThenBy(x => x.ItemName).ToList());
+            return View(itemList.Select(x => new ReviewOrdersVM(x)).OrderBy(x => x.ItemName).ToList());
         }
     }
 }
