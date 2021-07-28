@@ -37,9 +37,9 @@ namespace StoreWebApp.Controllers
             }
 
             Order newOrder = new();
+            newOrder.DateAdded = DateTime.Now;
             PlaceOrderVM firstItem = p_data.First();
             newOrder.CustomerId = firstItem.CustId;
-            Log.Information($"cust: {firstItem.CustId}");
             newOrder.StoreFrontId = firstItem.StoreId;
             List<InventoryItem> inventory = _datastore.GetStoreInventory(firstItem.StoreId);
             List<InventoryItem> soldOut = new();
