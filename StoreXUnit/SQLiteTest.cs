@@ -30,5 +30,8 @@ namespace StoreXUnit
             Assert.Throws<DbUpdateException>(() => context.SaveChanges());
             Assert.Empty(context.LineItems.ToList());
         }
+
+        [Theory]
+        public void 
     }
 }

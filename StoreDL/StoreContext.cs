@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace StoreDL
 {
-    public class StoreContext : DbContext
+    public class StoreContext : DbContext, IStoreContext
     {
         public StoreContext() : base()
         { }
