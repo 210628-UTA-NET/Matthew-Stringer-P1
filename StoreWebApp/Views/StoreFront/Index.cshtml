@@ -16,6 +16,7 @@
                 <th>Address</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +30,9 @@
                 </td>
                 <td>
                     @Html.ActionLink("Replenish Inventory", "Index", "InventoryReplenish", new { p_id = item.StoreFrontId }, new { @style = "color:white", @class = "btn btn-secondary" })
+                </td>
+                <td>
+                    @Html.ActionLink("View Order History", "Index", "ReviewOrder", new { p_id = item.StoreFrontId, p_cust = false }, new { @style = "color:white", @class = "btn btn-secondary" })
                 </td>
             </tr>
             }

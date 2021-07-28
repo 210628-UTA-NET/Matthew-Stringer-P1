@@ -31,8 +31,19 @@ namespace StoreWebApp.Controllers
             return itemList;
         }
 
-        public IActionResult Index(int p_id, bool p_cust, bool p_date, bool p_ascending)
+        public IActionResult Index(int p_id, bool p_cust)
         {
+            return View(new ReviewOptionsVM
+            {
+                Id = p_id,
+                Cust = p_cust
+            });
+        }
+
+        [HttpPost]
+        public IActionResult MakeReport(int p_id, bool p_cust, bool p_date, bool p_ascending)
+        {
+            Log.Information($"p_id {p_id}\tp_cust {p_cust}\tp_date {p_date}\tp_ascending {p_ascending}");
             List<Order> orderList = p_cust ? _datastore.GetCustomerOrderHistory(p_id) : _datastore.GetStoreOrderHistory(p_id);
             List<ReviewOrdersVM> itemList = SerializeResults(orderList, p_date);
             if (p_date)

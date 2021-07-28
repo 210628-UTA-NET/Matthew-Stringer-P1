@@ -1,0 +1,50 @@
+﻿@model ICollection<StoreWebApp.Models.ReviewOrdersVM>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+        <h1>Review Orders</h1>
+        <div><table class="table table-striped table-hover"><thead><tr><th>Item</th><th>Price</th><th>Quantity</th><th>Item Total</th></tr></thead><tbody>
+    @if (Model.Count > 0)
+    {
+        int prevOrder = 0;
+        decimal orderTotal = 0;
+        decimal grandTotal = 0;
+        int orderNo = 1;
+        StoreWebApp.Models.ReviewOrdersVM first = Model.First();
+        bool orderByDate = first.OrderByDate;
+
+        if (orderByDate)
+        {
+            WriteLiteral($"<tr><td colspan=\"4\">Order #1 - {first.OrderTime}</td></tr>");
+        }
+        foreach (StoreWebApp.Models.ReviewOrdersVM item in Model)
+        {
+            if (orderByDate && prevOrder != item.OrderId && prevOrder != 0)
+            {
+                WriteLiteral($"<tr><td colspan=\"4\">Order {orderNo} Total: {@orderTotal}</td></tr>");
+                orderTotal = 0;
+                orderNo++;
+                WriteLiteral($"<tr><td colspan=\"4\">Order #{orderNo} - {item.OrderTime}</td></tr>");
+            }
+            WriteLiteral($"<tr><td>{item.ItemName}</td><td>{item.Price}</td>" +
+                $"<td>{item.Quantity}</td><td>{item.LineTotal}</td></tr>");
+            orderTotal += item.LineTotal;
+            grandTotal += item.LineTotal;
+            prevOrder = item.OrderId;
+        }
+        if (orderByDate)
+        {
+            WriteLiteral($"<tr><td colspan=\"4\">Order {orderNo} Total: {orderTotal}</td></tr>");
+        }
+        WriteLiteral($"<tr><td colspan\"4\">Grand total: {grandTotal}</td></tr>");
+    }
+    </tbody>
+</table>
+            </div>
+</body>
+</html>
