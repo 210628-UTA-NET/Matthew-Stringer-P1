@@ -114,5 +114,13 @@ namespace StoreDL
 
             return cust.Orders;
         }
+
+        public List<Order> GetStoreOrderHistory(int p_id)
+        {
+            StoreFront store = _context.StoreFronts.Where(x => x.StoreFrontId == p_id).Include(x => x.Orders)
+                .ThenInclude(x => x.LineItems).ThenInclude(x => x.Prod).First();
+
+            return store.Orders;
+        }
     }
 }

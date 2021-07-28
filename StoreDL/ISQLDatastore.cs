@@ -15,5 +15,6 @@ namespace StoreDL
         bool SaveStoreInventoryChanges(List<InventoryItem> p_changes);
         bool PlaceOrder(Order p_new_order, List<InventoryItem> p_sold_out);
         List<Order> GetCustomerOrderHistory(int p_id);
+        List<Order> GetStoreOrderHistory(int p_id);
     }
 }

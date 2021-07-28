@@ -18,18 +18,30 @@ namespace StoreWebApp.Controllers
             _datastore = p_datastore;
         }
 
-        public IActionResult Index(int p_id)
+        private List<ReviewOrdersVM> SerializeResults(List<Order> p_orders, bool p_date)
         {
-            List<Order> orderList = _datastore.GetCustomerOrderHistory(p_id).OrderBy(x => x.DateAdded).ToList();
             List<ReviewOrdersVM> itemList = new();
-            foreach(Order order in orderList)
+            foreach (Order order in p_orders)
             {
-                foreach(LineItem item in order.LineItems.OrderBy(x => x.Prod.Name))
+                foreach (LineItem item in order.LineItems)
                 {
-                    itemList.Add(new ReviewOrdersVM(order, item));
+                    itemList.Add(new ReviewOrdersVM(order, item, p_date));
                 }
             }
-            return View(itemList);
+            return itemList;
+        }
+
+        public IActionResult Index(int p_id, bool p_cust, bool p_date, bool p_ascending)
+        {
+            List<Order> orderList = p_cust ? _datastore.GetCustomerOrderHistory(p_id) : _datastore.GetStoreOrderHistory(p_id);
+            List<ReviewOrdersVM> itemList = SerializeResults(orderList, p_date);
+            if (p_date)
+            {
+                return View(p_ascending ? itemList.OrderBy(x => x.OrderTime).ThenBy(x => x.OrderId).ThenBy(x => x.ItemName).ToList() :
+                    itemList.OrderByDescending(x => x.OrderTime).ThenBy(x => x.ItemName).ToList());
+            }
+            return View(p_ascending ? itemList.OrderBy(x => x.LineTotal).ThenBy(x => x.ItemName).ToList() :
+                itemList.OrderByDescending(x => x.LineTotal).ThenBy(x => x.ItemName).ToList());
         }
     }
 }
