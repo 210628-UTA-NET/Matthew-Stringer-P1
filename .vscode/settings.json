@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/b25f18c6-9eae-4063-8f02-e84fd2209415/resourceGroups/MattStringerD0/providers/Microsoft.Web/sites/stringersstore",
+    "appService.deploySubpath": "StoreWebApp\\Publish"
+}
