@@ -13,14 +13,16 @@ namespace StoreWebApp.Models
         public int Quantity { set; get; }
         public decimal LineTotal { set; get; }
         public int OrderId { set; get; }
+        public DateTime OrderTime { set; get; }
 
-        public ReviewOrdersVM(LineItem p_item)
+        public ReviewOrdersVM(Order p_order, LineItem p_item)
         {
             ItemName = p_item.Prod.Name;
             Price = p_item.Prod.Price;
             Quantity = p_item.Quantity;
             LineTotal = p_item.Prod.Price * Quantity;
-            OrderId = p_item.OrderId;
+            OrderId = p_order.OrderId;
+            OrderTime = p_order.DateAdded;
         }
 
         public ReviewOrdersVM()
