@@ -31,7 +31,5 @@ namespace StoreXUnit
             Assert.Empty(context.LineItems.ToList());
         }
 
-        [Theory]
-        public void 
     }
 }
