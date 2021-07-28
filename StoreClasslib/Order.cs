@@ -17,18 +17,17 @@ namespace StoreClasslib
 
         public string Location { set; get; }
 
-        public decimal TotalPrice { set; get; }
-
         [ForeignKey("Customer ")]
         public int CustomerId { set; get; }
 
         [ForeignKey("StoreFront ")]
         public int StoreFrontId { set; get; }
 
+        public DateTime DateAdded { set; get; }
+
         public Order()
         {
             this.LineItems = new List<LineItem>();
-            this.TotalPrice = 0;
         }
     }
 }
