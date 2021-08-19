@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Serilog;
-
+//Meaningless comment
 namespace StoreWebApp.Controllers
 {
     public class InventoryItemController : Controller
